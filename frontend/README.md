@@ -1,4 +1,4 @@
-# foodability
+# foodability frontend
 
 ## Build Setup
 
