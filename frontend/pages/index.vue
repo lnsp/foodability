@@ -9,6 +9,9 @@
       </div>
       <form @submit.prevent="add()">
         <input type="text" class="px-4 py-2 bg-gray-100 border-2 border-green-600 focus:border-green-900 w-full mt-4 rounded-lg" placeholder="banana" v-model="current">
+        <div class="text-xs text-red-500 mt-2" v-if="error(current)">
+          {{ error(current) }}
+        </div>
       </form>
       <transition-group name="fade" tag="div" class="flex flex-wrap mt-4 gap-2">
         <div v-for="tag in tags" :key="tag" class="bg-green-700 hover:bg-green-800 text-sm px-2 py-1 text-white rounded flex items-center w-min">
@@ -22,7 +25,7 @@
       </transition-group>
     </div>
     <div class="flex justify-center mb-4">
-      <button class="bg-green-600 hover:bg-green-700 p-4 rounded-full text-white">
+      <button class="bg-green-600 hover:bg-green-700 p-4 rounded-full text-white" @click="next">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
         </svg>
@@ -33,6 +36,7 @@
 
 <script>
 export default {
+  transition: 'home',
   data () {
     return {
       tags: ['pancakes', 'apple'],
@@ -47,6 +51,15 @@ export default {
     add () {
       this.tags.push(this.current)
       this.current = ''
+    },
+    error (tag) {
+      if (this.tags.includes(tag)) {
+        return 'Tag already exists.'
+      }
+    },
+    next () {
+      // TODO: Trigger /fetch-recipes call in backend
+      this.$router.push('/recipes')
     }
   }
 }
@@ -59,4 +72,20 @@ export default {
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
 }
+</style>
+
+<style>
+  .home-enter {
+    transform: translateX(50%);
+    opacity: 0;
+  }
+  .home-enter-to, .home-leave {
+    transform: translateX(0);
+    opacity: 100%;
+  }
+  .home-leave-to {
+    transform: translateX(-50%);
+    opacity: 0;
+  }
+  .home-enter-active, .home-leave-active { transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; }
 </style>
