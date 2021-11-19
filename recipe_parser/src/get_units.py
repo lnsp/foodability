@@ -1,5 +1,5 @@
-import re
 from recipe_scrapers import scrape_me
+import re
 
 def get_units(s):
     if re.search("gram", s, re.IGNORECASE):
