@@ -41,9 +41,10 @@ def get_units(s):
         return (4.92892, "v")
     return None
 
-scraper = scrape_me('https://www.feastingathome.com/tomato-risotto/', wild_mode=True)
-ingredients = scraper.ingredients()
-for ing in ingredients:
-    print(ing, get_units(ing))
+if __name__ == "__main__":
+    scraper = scrape_me('https://www.feastingathome.com/tomato-risotto/', wild_mode=True)
+    ingredients = scraper.ingredients()
+    for ing in ingredients:
+        print(ing, get_units(ing))
 
-print(ing, get_units(ing))
+    print(ing, get_units(ing))
