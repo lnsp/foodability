@@ -1,6 +1,7 @@
 import re
 import pickle
-
+from food_manager import FoodItem
+from recipes_manager import Recipe
 
 def tokenize(s: str) -> list:
     """Returns a list of token for the given string"""
@@ -11,8 +12,8 @@ def tokenize(s: str) -> list:
 
 
 def load_from_pickle(file="recipes.pickle"):
-    with open("recipes.pickle", "rb") as file:
-        l = pickle.load(file)
+    with open(file, "rb") as f:
+        l = pickle.load(f)
         return l
 
 
