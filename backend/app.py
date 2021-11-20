@@ -7,15 +7,15 @@ def status():
     return jsonify({ 'status': 'ok' })
 
 @app.route("/api/tags")
-def status():
+def tags():
     return jsonify({ 'tags': [] })
 
 @app.route("/api/recipes", methods=['POST'])
-def status():
+def recipes():
     return jsonify({ 'recipes': [] })
 
 @app.route("/api/shopping-list", methods=['POST'])
-def status():
+def shopping_list():
     return jsonify({ 'items': [] })
 
 app.run(host='0.0.0.0')
