@@ -13,7 +13,7 @@ if os.getenv('DOWNLOAD_PICKLE'):
 
     print('Fetch pickle files from Azure Storage container', container_str)
     blob_service_client = BlobServiceClient.from_connection_string(connect_str)
-    for fpath in ['food.pickle', 'min_food.pickle', 'recipes.pickle']:
+    for fpath in ['basics.pickle','food.pickle', 'min_food.pickle', 'recipes.pickle']:
         blob_client = blob_service_client.get_blob_client(container=container_str, blob=fpath)
         with open(fpath, "wb") as pickle_file:
             pickle_file.write(blob_client.download_blob().readall())
@@ -45,7 +45,7 @@ def plan():
     days = int(request.json['days'])
 
     if uid not in user_recipes:
-        predicted_recipe_indices = recipe_selector.get_recipes(tags, k=20, size=20)
+        predicted_recipe_indices = recipe_selector.get_recipes(tags, k=20, size=100)
         predicted_recipes = list(map(lambda i: recipes[i], predicted_recipe_indices))
         user_recipes[uid] = predicted_recipes
     
