@@ -19,12 +19,6 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-      - name: Restart container
-        uses: azure/CLI@v1
-        with:
-          azcliversion: latest
-          inlineScript: |
-            az container restart --name backend --resource-group container-registry --no-wait --subscription 1bb07e15-aefc-4554-be23-a0dbe4557505
       -
         name: Login to ACR
         uses: docker/login-action@v1 
@@ -46,3 +40,9 @@ jobs:
           context: backend
           push: true
           tags: foodability.azurecr.io/backend:latest
+      - name: Restart container
+        uses: azure/CLI@v1
+        with:
+          azcliversion: latest
+          inlineScript: |
+            az container restart --name backend --resource-group container-registry --no-wait

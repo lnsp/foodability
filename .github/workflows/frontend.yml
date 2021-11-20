@@ -39,6 +39,6 @@ jobs:
       - name: Restart container
         uses: azure/CLI@v1
         with:
-          azcliversion: 2.0.72
+          azcliversion: latest
           inlineScript: |
-            az container restart --name frontend --resource-group container-registry --no-wait --subscription 1bb07e15-aefc-4554-be23-a0dbe4557505
+            az container restart --name frontend --resource-group container-registry --no-wait
