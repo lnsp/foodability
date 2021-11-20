@@ -45,14 +45,25 @@ def plan():
     
     # we can guarantee that user_recipes[uid] has been set
     excluded = set(map(lambda x: x, request.json['recipes']['excluded']))
-    chosen = set(map(lambda x: x, request.json['recipes']['chosen']))
+    chosen = set(map(lambda x: x, request.json['recipes']['chosen'])) - excluded
+
+    # print('days', days)
+    # print('excluded', len(excluded), excluded)
+    # print('chosen', len(chosen), chosen)
+
     current_recipes = list(filter(lambda x: x.title not in excluded, user_recipes[uid]))
+    # print('number of current recipes', len(current_recipes))
 
     if len(chosen) > days:
         raise Exception("chosen can't be larger than number of days")
 
     fixed_bins = list(filter(lambda x: x.title in chosen, current_recipes))
-    _, possible_bins = init_bins(days - len(chosen), list(filter(lambda x: x.title not in chosen, current_recipes)))
+    # print('fixed_bins', list(map(lambda x: x.title, fixed_bins)))
+
+    unchosen_recipes = list(filter(lambda x: x.title not in chosen, current_recipes))
+    print('number of unchosen recipes', len(unchosen_recipes))
+    _, possible_bins = init_bins(days - len(chosen), unchosen_recipes)
+    # print('possible_bins', list(map(lambda x: x.title, possible_bins)))
 
     new_possible_bins = pack_bins(fixed_bins, possible_bins, current_recipes, food_manager)
     json_recipes = list(map(lambda x: {'title': x.title }, fixed_bins + new_possible_bins))

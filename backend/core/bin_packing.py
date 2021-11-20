@@ -44,6 +44,8 @@ def compute_score(bins_fixed, bins, recipes, food_manager):
     return waste
 
 def pack_bins(bins_fixed, bins, recipes, food_manager):
+    if len(bins) == 0:
+        return bins
     score = compute_score(bins_fixed, bins, recipes, food_manager)
     for i in range(1000):
         alter_idx = random.randrange(len(bins))
@@ -60,13 +62,8 @@ def pack_bins(bins_fixed, bins, recipes, food_manager):
     return bins
 
 def init_bins(days, recipes):
-    bins = []
-    for _ in range(days):
-        idx = random.randrange(len(recipes))
-        idx = recipes[idx]
-        if idx not in bins:
-            bins.append(idx)
-    return [], bins
+    random.shuffle(recipes)
+    return [], recipes[:min(days, len(recipes))]
 
 if __name__ == "__main__":
     recipes = load_from_pickle(file="recipes.pickle")
