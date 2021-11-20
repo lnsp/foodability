@@ -47,15 +47,16 @@ def pack_bins(days, recipes, food_manager):
     for i in range(100):
         alter_idx = random.randrange(days)
         value = random.randrange(len(recipes))
-        bins_new = copy.copy(bins)
-        bins_new[alter_idx] = value
-        score_new = compute_score(bins_new, recipes, food_manager)
+        if not value in bins:
+            bins_new = copy.copy(bins)
+            bins_new[alter_idx] = value
+            score_new = compute_score(bins_new, recipes, food_manager)
 
-        if score_new < score:
-            score = score_new
-            bins = bins_new
-            print(i)
-            print(score)
+            if score_new < score:
+                score = score_new
+                bins = bins_new
+                print(i)
+                print(score)
     return bins
 
 if __name__ == "__main__":
