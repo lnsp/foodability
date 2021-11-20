@@ -41,7 +41,8 @@ def compute_score(bins_fixed, bins, recipes, food_manager):
     for r in bins_fixed:
         calculate_ingredients(r, food_manager, ingredient_list)
     waste, total = calculate_waste(ingredient_list)
-    return waste
+    plastic, metal, carton, glass = get_total_packaging(ingredient_list)
+    return waste + (plastic + 0.5*carton + 0.5*metal) * 100
 
 def pack_bins(bins_fixed, bins, recipes, food_manager):
     if len(bins) == 0:

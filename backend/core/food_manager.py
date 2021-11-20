@@ -30,6 +30,7 @@ class FoodItem:
         metal = 0
         carton = 0
         glass = 0
+        pa = max(self.packaging_area, 3.)
         if "plastic" in self.packaging_materials:
             plastic += self.packaging_area * amt
         if "metal" in self.packaging_materials:
