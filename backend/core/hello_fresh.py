@@ -104,7 +104,7 @@ def get_recipe_links4(idx):
     return found
 
 
-def get_recipe_links5(idx):
+def get_recipe_links5(url):
     today = datetime.datetime.today()
     session = requests.session()
 
@@ -115,13 +115,53 @@ def get_recipe_links5(idx):
 
     found = []
 
-    url = "https://vanillaandbean.com/recipe-index/" + str(idx)
     raw = session.get(url, headers=headers).text
-    match = re.finditer(r'summary"><div class="post-summary__image"><a href="(https://www.justataste.com/[^"]*)"', raw)
+    match = re.finditer(r'"(https://www.thekitchn.com/[^"]*)"', raw)
     for m in match:
         s = m.group(1)
         if not(s[:-1] == url[:-1] or s in blacklist):
             found.append(s)
     return found
 
+
     
+def get_recipe_links6(base_url, idx):
+    today = datetime.datetime.today()
+    session = requests.session()
+
+    headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:71.0) Gecko/20100101 Firefox/71.0", "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8", "Accept-Language": "en-US,en;q=0.5", "Accept-Encoding": "gzip, deflate", "DNT": "1", "Connection": "close", "Upgrade-Insecure-Requests": "1"}
+
+    blacklist = [
+    ]
+
+    found = []
+
+    url = base_url + str(idx) + "/"
+    raw = session.get(url, headers=headers).text
+    match = re.finditer(r'><header class="entry-header"><a class="entry-image-link" href="(https://sweetpeasandsaffron.com/[^"]*)"', raw)
+    for m in match:
+        s = m.group(1)
+        if not(s[:-1] == url[:-1] or s in blacklist):
+            found.append(s)
+    return found
+
+
+def get_recipe_links7(url):
+    today = datetime.datetime.today()
+    session = requests.session()
+
+    headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:71.0) Gecko/20100101 Firefox/71.0", "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8", "Accept-Language": "en-US,en;q=0.5", "Accept-Encoding": "gzip, deflate", "DNT": "1", "Connection": "close", "Upgrade-Insecure-Requests": "1"}
+
+    blacklist = [
+    ]
+
+    found = []
+
+    raw = session.get(url, headers=headers).text
+    match = re.finditer(r'<a class="img-anchor recipe-modal-link" href="([^"]*)"', raw)
+    for m in match:
+        s = m.group(1)
+        s = "https://sunbasket.com" + s
+        if not(s[:-1] == url[:-1] or s in blacklist):
+            found.append(s)
+    return found

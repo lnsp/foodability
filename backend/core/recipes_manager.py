@@ -24,7 +24,11 @@ class Recipe:
     def __init__(self, url):
         self.url = url
         scraper = scrape_me(url, wild_mode=False)
-        yields = get_numbers.get_numbers(scraper.yields())
+        try:
+            yields = scraper.yields()
+            yields = get_numbers.get_numbers(yields)
+        except:
+            yields = None
         if yields == None or yields <= 0:
             yields = 1
         self.ingredients = [build_ingredient(ingredient, yields) for ingredient in scraper.ingredients()]
