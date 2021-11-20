@@ -39,10 +39,6 @@ cols = ["code", "product_name", "quantity", "packaging", "packaging_text", "pack
 # In[8]:
 
 
-for e in df[cols]["packaging_tags"].unique():
-    print(e)
-
-
 # In[87]:
 
 
@@ -69,7 +65,6 @@ glass = df["packaging_tags"].map(lambda x: any([tag in str(x).lower().split(",")
 
 METAL_TAGS = ["metalique", "aluminium", "metal"]
 metal = df["packaging_tags"].map(lambda x: any([tag in str(x).lower().split(",") for tag in METAL_TAGS]))
-
 
 # ## Approximate area of packaging based on volumne
 
@@ -125,6 +120,7 @@ def get_weight(s):
 
 weight = df["quantity"].fillna("").map(lambda x: get_weight(x))
 
+print("Finished weight computation")
 
 # In[81]:
 
@@ -168,11 +164,22 @@ df["carton"] = carton
 df["metal"] = metal
 df["plastic"] = plastic
 
+def get_materials(row):
+    l = []
+    if row["glass"]:
+        l.append("glass")
+    if row["carton"]:
+        l.append("carton")
+    if row["metal"]:
+        l.append("metal")
+    if row["plastic"]:
+        l.append("plastic")
+    return ",".join(l)
 
-# In[100]:
+df["materials"] = df.apply(lambda x: get_materials(x), axis=1)
+print("Finished materials")
 
-
-cols += ["glass", "carton", "metal", "plastic"]
+cols += ["materials"]
 
 
 # In[101]:
