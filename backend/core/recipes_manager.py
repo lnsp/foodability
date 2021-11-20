@@ -1,10 +1,10 @@
 from recipe_scrapers import scrape_me
-import get_numbers
-import get_units
-import get_ingredient
-import hello_fresh
+from . import get_numbers
+from . import get_units
+from . import get_ingredient
+from . import hello_fresh
+from . import food_manager
 import pickle
-import food_manager
 from tqdm import tqdm
 
 def build_ingredient(ingredient, yields):

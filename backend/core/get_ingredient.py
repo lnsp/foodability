@@ -1,9 +1,8 @@
 from recipe_scrapers import scrape_me
 import nltk
 import re
-import utils
-
-import get_units
+from . import utils
+from . import get_units
 
 #nltk.download('punkt')
 #nltk.download('averaged_perceptron_tagger')

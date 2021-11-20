@@ -5,7 +5,7 @@ import re
 import requests
 from recipe_scrapers import scrape_me
 from tqdm import tqdm
-import recipes_manager
+from . import recipes_manager
 import pickle
 
 

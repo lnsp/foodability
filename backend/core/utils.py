@@ -8,10 +8,20 @@ def tokenize(s: str) -> list:
     sentence = sentence.split()
     return sentence
 
+class RenameUnpickler(pickle.Unpickler):
+    def find_class(self, module, name):
+        renamed_module = module
+        if module == "recipes_manager":
+            renamed_module = "core.recipes_manager"
+        elif module == "food_manager":
+            renamed_module = "core.food_manager"
+
+        return super(RenameUnpickler, self).find_class(renamed_module, name)
+
 
 def load_from_pickle(file="recipes.pickle"):
     with open(file, "rb") as f:
-        l = pickle.load(f)
+        l = RenameUnpickler(f).load()
         return l
 
 

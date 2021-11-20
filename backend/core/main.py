@@ -1,12 +1,12 @@
-from food_manager import FoodManager, FoodItem
-from food_manager import assemble
-from recipes_manager import Recipe, remove_duplicate_recipes, remove_nonsense_recipes
-from utils import load_from_pickle
+from .food_manager import FoodManager, FoodItem
+from .food_manager import assemble
+from .recipes_manager import Recipe, remove_duplicate_recipes, remove_nonsense_recipes
+from .utils import load_from_pickle
 from typing import List
-from graph import Graph
+from .graph import Graph
 import random
-from bin_packing import pack_bins, calculate_ingredients, init_bins, calculate_waste
-from recipe_preselector import RecipePreselector
+from .bin_packing import pack_bins, calculate_ingredients, init_bins, calculate_waste
+from .recipe_preselector import RecipePreselector
 
 def init_all():
     recipes = load_from_pickle(file="recipes.pickle")
@@ -35,14 +35,3 @@ def print_stats(recipes, food, bins):
         print(recipes[b])
 
     print("total waste", calculate_waste(ingredient_list))
-
-if __name__ == "__main__":
-    recipes, food, selector = init_all()
-    
-    tags = ["broccoli"]
-
-    selected_recipe_indices = selector.get_recipes(tags, k=20, size=10)
-    selected_recipes = list(map(lambda i: recipes[i], selected_recipe_indices))
-    bins = pack_bins(*init_bins(5, selected_recipes), selected_recipes, food)
-    
-    print_stats(selected_recipes, food, bins)

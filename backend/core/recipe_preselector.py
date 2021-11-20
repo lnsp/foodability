@@ -1,10 +1,10 @@
-from food_manager import FoodManager, FoodItem
-from recipes_manager import Recipe
-from utils import load_from_pickle
+from .food_manager import FoodManager, FoodItem
+from .recipes_manager import Recipe
+from .utils import load_from_pickle
 from typing import List
-from graph import Graph
+from .graph import Graph
 import random
-from bin_packing import pack_bins
+from .bin_packing import pack_bins
 
 class RecipePreselector:
 

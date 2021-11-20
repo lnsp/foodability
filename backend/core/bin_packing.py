@@ -2,11 +2,11 @@ import random
 import math
 import copy
 
-import food_manager
-import recipes_manager
-from food_manager import FoodItem
-from recipes_manager import Recipe
-from utils import load_from_pickle
+from . import food_manager
+from . import recipes_manager
+from .food_manager import FoodItem
+from .recipes_manager import Recipe
+from .utils import load_from_pickle
 
 def calculate_ingredients(recipe, food_manager, ingredient_list, print_=False):
     """
