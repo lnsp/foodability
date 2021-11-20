@@ -3,6 +3,19 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from core.main import *
 from uuid import uuid4
+from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
+
+if os.getenv('DOWNLOAD_PICKLE'):
+    connect_str = os.getenv('AZURE_STORAGE_CONNECTION')
+    container_str = os.getenv('AZURE_STORAGE_CONTAINER')
+
+    print('Fetch pickle files from Azure Storage container', container_str)
+    blob_service_client = BlobServiceClient.from_connection_string(connect_str)
+    for fpath in ['min_food.pickle', 'recipes.pickle']:
+        blob_client = blob_service_client.get_blob_client(container=container_str, blob=fpath)
+        with open(fpath, "wb") as pickle_file:
+            pickle_file.write(blob_client.download_blob().readall())
+        print('Fetched %s from Azure Blob storage' % fpath)
 
 recipes, food_manager, recipe_selector = init_all()
 app = Flask(__name__)
