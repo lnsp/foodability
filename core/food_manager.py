@@ -56,7 +56,7 @@ class FoodManager:
                 pass
 
         # Sort food items by number of occurrences
-        l = sorted(found_items.items(), key=lambda x: (x[1], self.food_items[x[0]].data_score))
+        l = sorted(found_items.items(), key=lambda x: (-x[1], len(self.food_items[x[0]].tags)))
 
         return [e[0] for e in l[:k]]
     

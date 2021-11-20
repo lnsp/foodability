@@ -4,6 +4,7 @@ from utils import load_from_pickle
 from typing import List
 from graph import Graph
 import random
+from bin_packing import pack_bins
 
 def get_recipes():
     return load_from_pickle(file="recipes.pickle")
@@ -58,9 +59,12 @@ class RecipePreselector:
 if __name__ == "__main__":
     manager = FoodManager(get_food_items())
     recipes = get_recipes()
-    tags = ["garlic", "bread"]
+    tags = ["broccoli"]
     selector = RecipePreselector(manager, recipes)
     l = selector.get_recipes(tags, k=20, size=10)
-    for r_idx in l:
-        print(recipes[r_idx].url)
+
+    bins = pack_bins(5, [recipes[idx] for idx in l], manager)
+
+    for e in bins:
+        print(recipes[l[e]].url)
 
