@@ -41,4 +41,4 @@ jobs:
         with:
           azcliversion: 2.0.72
           inlineScript: |
-            az container restart --name frontend --resource-group container-registry --no-wait
+            az container restart --name frontend --resource-group container-registry --no-wait --subscription 1bb07e15-aefc-4554-be23-a0dbe4557505
