@@ -1,7 +1,7 @@
 <template>
-  <div class="h-screen flex flex-col w-full items-center p-8 overflow-hidden pretty-bg">
+  <div class="h-full flex flex-col w-full items-center p-8 overflow-hidden pretty-bg">
     <header class="z-10 w-full">
-      <h1 class="text-4xl font-medium flex justify-center items-center pt-6 pb-4 text-white brand">
+      <h1 class="text-3xl sm:text-4xl font-medium flex justify-center items-center pt-2 pb-1 sm:pt-6 sm:pb-4 text-white brand">
         <svg aria-hidden="true"
              focusable="false"
              data-prefix="fas"
@@ -16,18 +16,24 @@
         Foodability
       </h1>
     </header>
-    <main class="border-2 border-green-600 rounded-lg w-full max-w-lg flex-grow mt-8 bg-white z-10 overflow-hidden relative">
+    <main class="rounded-lg w-full max-w-lg flex-grow mt-8 bg-white z-10 overflow-hidden relative">
       <Nuxt />
     </main>
   </div>
 </template>
 
 <style>
+#__nuxt, #__layout {
+  height: 100%;
+}
+html, body {
+  height: 100%;
+}
 .pretty-bg {
   background: linear-gradient(
       to bottom,
       rgba(79, 80, 87, 0.52),
-      rgba(4, 120, 87, 1) 50%
+      rgba(4, 120, 87, 1) 75%
     ),
     url("~/assets/bg.webp");
   background-size: cover;

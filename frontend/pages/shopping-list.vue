@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="grid grid-cols-1 gap-4 mt-4">
-      <div v-for="item in items"
+      <div v-for="item in shoppingList"
            :key="item">
         {{ item }}
       </div>
@@ -22,6 +22,12 @@
       <div class="text-xl">
         And start cooking!
       </div>
+      <div class="grid grid-cols-1 gap-4 mt-4">
+        <div v-for="recipe in recipes"
+             :key="recipe">
+          <a :href="recipe.url">{{ recipe.title }}</a>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -30,16 +36,27 @@
 export default {
   data() {
     return {
-      items: [
-        "500g flour",
-        "25g backing powder",
-        "100g salt",
-        "250g sugar",
-        "1 liter milk",
-        "6 eggs",
-        "100g butter",
-      ],
+      shoppingList: [],
+      recipes: [],
     };
+  },
+  computed: {
+    preference() {
+      return this.$store.state.food.recipes;
+    },
+  },
+  mounted() {
+    this.fetch();
+  },
+  methods: {
+    async fetch() {
+      const response = await this.$axios.$post("/shop", {
+        chosen: this.preference.chosen,
+        excluded: this.preference.excluded,
+      });
+      this.shoppingList = response.shoppingList;
+      this.recipes = response.recipes;
+    },
   },
 };
 </script>
