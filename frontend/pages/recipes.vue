@@ -2,7 +2,7 @@
   <div class="p-6 flex flex-col justify-between h-full">
     <div class="flex items-between">
       <div class="flex items-center gap-4">
-        <div class="brand text-4xl font-black inline-block p-3 bg-green-700 w-16 h-16 text-white">
+        <div class="brand flex-shrink-0 text-4xl font-black inline-block p-3 bg-green-700 w-16 h-16 text-white">
           III.
         </div>
         <div class="text-xl">
@@ -17,14 +17,23 @@
           <span>{{ tag }}</span>
         </div>
     </div>
-    <div class="my-4 flex-grow h-0 overflow-y-scroll p-2 border-t border-b border-green-600">
-      <div class="grid gap-4 grid-cols-2 sm:grid-cols-3">
+    <div class="my-4 flex-grow h-0 overflow-y-scroll py-2 border-t-2 border-b border-green-600">
+      <div class="grid gap-4 grid-rows-auto auto-rows-fr">
         <div v-for="recipe in filtered"
              :key="recipe.title"
-             class="cursor-pointer overflow-hidden relative rounded-lg border-2 flex flex-col bg-gray-100 transform transition hover:opacity-100"
-             :class="isChosen(recipe) ? ['border-green-500', 'scale-105'] : ['border-gray-400', 'opacity-75']"
+             class="cursor-pointer overflow-hidden relative rounded-lg border-2 flex flex-row justify-between items-center bg-gray-100 transform transition hover:opacity-100"
+             :class="isChosen(recipe) ? ['border-green-500'] : ['border-gray-400', 'opacity-75']"
              @click="toggle(recipe)">
-          <button class="absolute  bg-white z-10 rounded-br-lg t-0 r-0 m-auto w-8 h-8 flex justify-center items-center transition hover:bg-red-600 hover:text-white"
+             <div class="flex gap-4 items-center">
+
+          <img class="flex-shrink-0 h-full w-16 sm:w-24 object-cover filter z-0"
+               :class="{ 'grayscale': !isChosen(recipe) }"
+               :src="recipe.image" v-if="recipe.image">
+          <div class="text-gray-900 mx-2 text-sm">
+            {{ recipe.title }}
+          </div>
+          </div>
+          <button class="w-8 h-8 flex justify-center items-center transition rounded-lg  mr-4 hover:bg-green-600 hover:text-white"
                   @click="exclude(recipe)">
             <svg xmlns="http://www.w3.org/2000/svg"
                  class="h-5 w-5"
@@ -37,13 +46,6 @@
                     d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
-
-          <img class="h-24 object-cover filter z-0"
-               :class="{ 'grayscale': !isChosen(recipe) }"
-               :src="recipe.image">
-          <div class="text-gray-900 p-2 z-10 text-center">
-            {{ recipe.title }}
-          </div>
         </div>
       </div>
     </div>
@@ -97,6 +99,9 @@ export default {
   },
   mounted() {
     this.fetch();
+    //this.recipes = [
+    //  {'title': 'ass', 'image': 'https://bilderspeiseplan.studentenwerk-dresden.de/m9/202012/252587.jpg'},{'title':'condesa'},{'title':'mensa'}
+    //]
   },
   data() {
     return {

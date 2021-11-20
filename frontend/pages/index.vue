@@ -2,7 +2,7 @@
   <div class="p-6 flex flex-col justify-between h-full">
     <div class="flex-grow">
       <div class="flex items-center">
-        <div class="brand text-4xl font-black p-3 bg-green-700 w-16 h-16 text-white">
+        <div class="brand flex-shrink-0 text-4xl font-black p-3 bg-green-700 w-16 h-16 text-white">
           I.
         </div>
         <div class="flex items-center flex-wrap gap-x-4 gap-y-2 ml-4">
@@ -17,7 +17,7 @@
       </div>
       <div class="w-full my-4 border-b border-green-600" />
       <div class="flex items-center gap-4">
-        <div class="brand text-4xl font-black inline-block p-3 bg-green-700 w-16 h-16 text-white">
+        <div class="brand text-4xl flex-shrink-0 font-black inline-block p-3 bg-green-700 w-16 h-16 text-white">
           II.
         </div>
         <div class="flex items-center flex-wrap gap-x-4 gap-y-1">
