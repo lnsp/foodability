@@ -15,15 +15,7 @@ class FoodItem:
         self.image_url = str(row["image_url"]).lower()
         self.weight = row["weight"]
         self.packaging_area = float(row["packaging area"])
-        self.packaging_materials = []
-        if row["glass"]:
-            self.packaging_materials.append("glass")
-        if row["metal"]:
-            self.packaging_materials.append("metal")
-        if row["plastic"]:
-            self.packaging_materials.append("plastic")
-        if row["carton"]:
-            self.packaging_materials.append("carton")
+        self.packaging_materials = row["materials"].split(",")
         self.store = row["stores"]
 
     def compute_data_score(self):
@@ -75,9 +67,9 @@ def assemble(food_file="food.pickle"):
 
 
 if __name__ == "__main__":
-    manager = assemble()
+    manager = assemble("min_food.pickle")
     print(manager.food_items[0].data_score)
-    result = manager.get_food_items_by_tag(["tomato"])
+    result = manager.get_food_items_by_tag(["apple"])
     print(result)
     print([manager.food_items[idx].name for idx in result])
     print([manager.food_items[idx].data_score for idx in result])

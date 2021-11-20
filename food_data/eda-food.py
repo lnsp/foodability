@@ -14,6 +14,10 @@ import pandas as pd
 
 df = pd.read_csv("en.openfoodfacts.org.products.csv", sep='\t')
 
+# SPECIFY SUPERMARKETS
+df["stores"] = df["stores"].str.lower().str.strip()
+df = df[df["brands_tags"].isin(["lidl", "rewe", "aldi", "netto"])]
+
 
 # In[5]:
 
@@ -177,6 +181,7 @@ def get_materials(row):
     return ",".join(l)
 
 df["materials"] = df.apply(lambda x: get_materials(x), axis=1)
+print(df["materials"].unique())
 print("Finished materials")
 
 cols += ["materials"]
@@ -193,5 +198,5 @@ df[cols]
 # In[102]:
 
 
-df[cols].to_csv("food_data.csv")
+df[cols].to_csv("min_food_data.csv")
 
