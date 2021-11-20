@@ -1,0 +1,33 @@
+Apple 	1 	6.8 oz 	195 g
+Apricot 	1 	1.2 oz 	35 g
+Avocado 	1 	6 oz	170 g
+Banana 	1 	4.2 oz	120 g
+Blackberry	1 	0.09 oz	2.45 g
+Blueberry 	1 	0.02 oz	0.5 g
+Cherries 	1 (with pit)	0.18 oz	5 g
+Coconut 	1 	1.5 lbs.	680 g
+Cranberry	1 	0.04 oz	1.13 g 
+Fig	1	1.76 oz	50 g
+Grapefruit	1	8.7 oz	246 g
+Grapes 	1 	0.18 oz	5 g
+Guava 	1 	7 oz	200 g 
+Jackfruit (Durian)	1	15 lbs. 	6.8 kg
+Kiwi	1 	2.65 oz 	75 g
+Lemon	1 	3.5 oz 	100 g 
+Lime 	1 	1.7 oz	50 g 
+Mango 	1 	7 oz 	200 g 
+Melon (cantaloupe) 	1 	3 lbs.	1.36 kg
+Melon (honeydew) 	1 	4 lbs.	1.8 kg
+Nectarine 	1 	5.3 oz 	150 g
+Olives 	1 	0.18 oz	5 g
+Orange 	1 	4.6 oz	130 g
+Papaya 	1 	1 lb.	450 g
+Peach 	1	5.3 oz	150 g
+Pear 	1 	6.3 oz	180 g
+Pineapple 	1	3.5 lbs. 	1.59 kg
+Plum	1 	2.3 oz	65 g
+Pomegranate 	1 	9 oz 	255 g
+Pumpkin	1 	10 lbs. 	4.5 kg
+Raspberry	1 	0.18 oz	5 g
+Strawberry	1 	0.4 oz	12 g
+Watermelon 	1 	20 lbs. 	9 kg

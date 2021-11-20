@@ -86,7 +86,7 @@ def assemble(food_file="food.pickle"):
 
 
 if __name__ == "__main__":
-    manager = assemble("min_food.pickle")
+    manager = assemble("../food.pickle")
     print(manager.food_items[0].data_score)
     result = manager.get_food_items_by_tag(["apple"])
     print(result)
