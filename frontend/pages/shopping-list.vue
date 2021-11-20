@@ -8,26 +8,30 @@
         Go buy these items.
       </div>
     </div>
-    <div class="grid grid-cols-1 gap-4 mt-4">
-      <div v-for="item in shoppingList"
-           :key="item">
-        {{ item }}
-      </div>
+    <div class="h-0 overflow-y-scroll flex-grow mt-4 border-t border-b border-gray-200">
+    <table class="table-auto w-full">
+      <tr v-for="item in shoppingList"
+           :key="item" class="hover:bg-gray-100 border border-gray-200">
+        <td class="py-1 pl-1 text-right">{{ item.weight }}</td><td class="pr-2">{{ item.unit }}</td><td class="py-1 px-1">{{ item.name }}</td>
+      </tr>
+    </table>
     </div>
-    <div class="w-full my-4 border-b border-green-600" />
-    <div class="flex items-center gap-4">
+    <div class="flex items-center gap-4 mt-4">
       <div class="brand text-4xl font-black inline-block p-3 bg-green-700 w-16 h-16 text-white">
         V.
       </div>
       <div class="text-xl">
         And start cooking!
       </div>
-      <div class="grid grid-cols-1 gap-4 mt-4">
-        <div v-for="recipe in recipes"
-             :key="recipe">
-          <a :href="recipe.url">{{ recipe.title }}</a>
-        </div>
-      </div>
+    </div>
+    <div class="flex-grow h-0 overflow-y-auto border border-gray-200 p-2 mt-4">
+      <ol class="grid grid-cols-1 gap-4 mt-4">
+        <li v-for="(recipe, index) in recipes"
+             :key="recipe" class="flex ">
+          <span class="flex-shrink-0 text-right block w-6 text-lg mr-2">{{ index }}.</span>
+          <a :href="recipe.url" target="_blank" rel="noreferrer noopener" class="flex items-center hover:underline hover:text-green-700"><span>{{ recipe.title }}</span></a>
+        </li>
+      </ol>
     </div>
   </div>
 </template>
@@ -42,8 +46,11 @@ export default {
   },
   computed: {
     preference() {
-      return this.$store.state.food.recipes;
+      return this.$store.state.food.recipes
     },
+    uid() {
+      return this.$store.state.food.uid
+    }
   },
   mounted() {
     this.fetch();
@@ -51,11 +58,11 @@ export default {
   methods: {
     async fetch() {
       const response = await this.$axios.$post("/shop", {
-        chosen: this.preference.chosen,
-        excluded: this.preference.excluded,
-      });
-      this.shoppingList = response.shoppingList;
-      this.recipes = response.recipes;
+        recipes: this.preference,
+        uid: this.uid,
+      })
+      this.shoppingList = response.shoppingList
+      this.recipes = response.recipes
     },
   },
 };

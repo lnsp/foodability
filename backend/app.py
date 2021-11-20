@@ -2,6 +2,7 @@ import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from core.main import *
+import math
 from uuid import uuid4
 from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
 import time
@@ -12,13 +13,13 @@ if os.getenv('DOWNLOAD_PICKLE'):
 
     print('Fetch pickle files from Azure Storage container', container_str)
     blob_service_client = BlobServiceClient.from_connection_string(connect_str)
-    for fpath in ['food.pickle', 'recipes.pickle']:
+    for fpath in ['food.pickle', 'min_food.pickle', 'recipes.pickle']:
         blob_client = blob_service_client.get_blob_client(container=container_str, blob=fpath)
         with open(fpath, "wb") as pickle_file:
             pickle_file.write(blob_client.download_blob().readall())
         print('Fetched %s from Azure Blob storage' % fpath)
 
-recipes, food_manager, recipe_selector = init_all(food_pickle='food.pickle')
+recipes, food_manager, recipe_selector = init_all(food_pickle=os.getenv('FOOD_DATASET', default='min_food.pickle'))
 app = Flask(__name__)
 CORS(app)
 
@@ -41,7 +42,7 @@ def tags():
 def plan():
     tags = request.json['tags']
     uid = request.json['uid']
-    days = request.json['days']
+    days = int(request.json['days'])
 
     if uid not in user_recipes:
         predicted_recipe_indices = recipe_selector.get_recipes(tags, k=20, size=20)
@@ -74,18 +75,47 @@ def plan():
     json_recipes = list(map(lambda x: {'title': x.title, 'image': x.image}, fixed_bins + new_possible_bins))
     return jsonify({'recommended': tags, 'recipes': json_recipes})
 
+def format_weight(weight):
+    if weight > 1000:
+        return '%.2f' % (weight/1000)
+    elif weight < 1:
+        return '%.0f' % (weight*1000)
+    else:
+        return '%.2f' % (weight)
+
+def weight_unit(weight):
+    if weight > 1000:
+        return 'kg'
+    elif weight < 1:
+        return 'mg'
+    else:
+        return 'g'
 
 @app.route("/api/shop", methods=['POST'])
 def shopping_list():
-    return jsonify({'shoppingList': [
-         "500g flour",
-        "25g backing powder",
-        "100g salt",
-        "250g sugar",
-        "1 liter milk",
-        "6 eggs",
-        "100g butter",
-    ], 'recipes': []})
+    recipes = request.json['recipes']
+    uid = request.json['uid']
+
+    current_recipes = list(filter(lambda x: x.title in recipes, user_recipes[uid]))
+    ingredient_list = {}
+    for recipe in current_recipes:
+        calculate_ingredients(recipe, food_manager, ingredient_list, True)
+    
+    recipes_with_url = []
+    for recipe in current_recipes:
+        recipes_with_url.append({
+            'title': recipe.title,
+            'url': recipe.url,
+        })
+    readable_ingredients = []
+    for ing, amt in ingredient_list.items():
+        readable_ingredients.append({
+            'unit': weight_unit(ing.weight * amt[0]),
+            'weight': format_weight(amt[0] * ing.weight),
+            'name': ing.name
+        })
+
+    return jsonify({'shoppingList': readable_ingredients, 'recipes': recipes_with_url})
 
 
 app.run(host='0.0.0.0', port=int(os.getenv('FLASK_PORT', default='9876')))

@@ -148,11 +148,8 @@ export default {
       return this.chosen.includes(recipe.title);
     },
     next() {
-      // TODO: Send recipes to backend
-      this.$store.commit("food/recipes", {
-        excluded: this.excluded,
-        chosen: this.chosen,
-      });
+      let selected = this.recipes.filter(x => !this.isExcluded(x)).map(x => x.title)
+      this.$store.commit("food/recipes", selected);
       this.$router.push("/shopping-list");
     },
   },
