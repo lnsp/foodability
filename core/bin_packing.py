@@ -38,27 +38,29 @@ def compute_score(plan, recipes, food_manager):
         calculate_ingredients(recipes[recipe_idx], food_manager, ingredient_list)
     return calculate_waste(ingredient_list)
 
-def pack_bins(days, recipes, food_manager):
+def pack_bins(bins, fixed, recipes, food_manager):
+    score = compute_score(bins, recipes, food_manager)
+    for i in range(1000):
+        alter_idx = random.randrange(len(bins))
+        value = random.randrange(len(recipes))
+        if not value in bins and not fixed[alter_idx]:
+            bins_new = copy.copy(bins)
+            bins_new[alter_idx] = value
+            score_new = compute_score(bins_new, recipes, food_manager)
+
+            if score_new < score+random.uniform(0., 0.03):
+                print(score, score_new)
+                score = score_new
+                bins = bins_new
+    return bins
+
+def init_bins(days):
     bins = []
     for _ in range(days):
         idx = random.randrange(len(recipes))
         if idx not in bins:
             bins.append(idx)
-    score = compute_score(bins, recipes, food_manager)
-
-    for i in range(500):
-        alter_idx = random.randrange(days)
-        value = random.randrange(len(recipes))
-        if not value in bins:
-            bins_new = copy.copy(bins)
-            bins_new[alter_idx] = value
-            score_new = compute_score(bins_new, recipes, food_manager)
-
-            if score_new < score+random.uniform(0., 0.1):
-                print(score, score_new)
-                score = score_new
-                bins = bins_new
-    return bins
+    return bins, [False for _ in range(days)]
 
 if __name__ == "__main__":
     recipes = load_from_pickle(file="recipes.pickle")
@@ -72,9 +74,9 @@ if __name__ == "__main__":
 
     food_manager.filter_by_has_weight()
     
-    bins = pack_bins(3, recipes, food_manager)
+    bins = pack_bins(*init_bins(3), recipes, food_manager)
     
-    print(bins)
+    print(bins, len(recipes))
     
     ingredient_list = {}
     for b in bins:
