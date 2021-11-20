@@ -29,9 +29,19 @@ class FoodManager:
         # Maps tags to lists of indices that correspond to food's position in food_items
         self.tag_to_food_items = dict()
         self.food_items = food_items
+        #Only allow items with a weight
+        self.filter_by_has_weight()
+        
         for id, food_item in enumerate(self.food_items):
             self.init_tag_to_food_items(id, food_item.tags)
         print("Initialized init to tags")
+
+    def filter_by_has_weight(self):
+        ret = []
+        for fi in self.food_items:
+            if not math.isnan(fi.weight):
+                ret.append(fi)
+        self.food_items = ret
 
     def get_food_items_by_tag(self, tags, k=10):
         found_items = {}
@@ -42,7 +52,8 @@ class FoodManager:
                     found_items.setdefault(food_idx, 0)
                     found_items[food_idx] += 1
             else:
-                print("Didnt find word", tag)
+                #print("Didnt find word", tag)
+                pass
 
         # Sort food items by number of occurrences
         l = sorted(found_items.items(), key=lambda x: (x[1], self.food_items[x[0]].data_score))
@@ -50,7 +61,11 @@ class FoodManager:
         return [e[0] for e in l[:k]]
     
     def get_food_item_by_tag(self, tags):
-        return self.food_items[self.get_food_items_by_tag(tags, k=1)[0]]
+        food = self.get_food_items_by_tag(tags, k=1)
+        if len(food) > 0:
+            return self.food_items[food[0]]
+        else: 
+            return None
 
     def init_tag_to_food_items(self, obj_id, tags):
         for s in set(tags):
