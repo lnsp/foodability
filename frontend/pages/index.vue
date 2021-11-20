@@ -36,7 +36,7 @@
 
 <script>
 export default {
-  transition: 'home',
+  transition: 'fade',
   data () {
     return {
       tags: ['pancakes', 'apple'],
@@ -72,20 +72,4 @@ export default {
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
 }
-</style>
-
-<style>
-  .home-enter {
-    transform: translateX(50%);
-    opacity: 0;
-  }
-  .home-enter-to, .home-leave {
-    transform: translateX(0);
-    opacity: 100%;
-  }
-  .home-leave-to {
-    transform: translateX(-50%);
-    opacity: 0;
-  }
-  .home-enter-active, .home-leave-active { transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; }
 </style>

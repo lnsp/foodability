@@ -40,7 +40,8 @@ export default {
     // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
     // https://image.nuxtjs.org/getting-started/installation
-    '@nuxt/image'
+    '@nuxt/image',
+    '@nuxtjs/google-fonts'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -58,5 +59,11 @@ export default {
 
   server: {
     host: '0'
+  },
+
+  googleFonts: {
+    families: {
+      Poppins: true
+    }
   }
 }

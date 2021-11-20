@@ -7,17 +7,17 @@
       <div class="text-xl mt-4 text-center">
         Choose your meals!
       </div>
-      <div class="grid gap-4 mt-4 grid-cols-2">
-        <div v-for="recipe in recipes" :key="recipe.title" class="overflow-hidden h-32 relative rounded-lg border flex flex-col items-center justify-end bg-green-900" :class="active(recipe) ? ['border-green-500'] : ['border-gray-400']" @click="toggle(recipe)">
-          <img class="absolute h-32 z-0 filter brightness-75 w-full" :class="{ 'grayscale': !active(recipe) }" :src="recipe.image">
-          <div class="text-white p-1 text-sm z-10">
+      <div class="grid gap-4 mt-4 grid-cols-2 sm:grid-cols-3">
+        <div v-for="recipe in recipes" :key="recipe.title" class="cursor-pointer overflow-hidden relative rounded-lg border-2 flex flex-col bg-gray-100 transform transition" :class="active(recipe) ? ['shadow-lg', 'border-green-500', 'scale-105'] : ['border-gray-400', 'opacity-75']" @click="toggle(recipe)">
+          <img class="h-24 object-cover filter" :class="{ 'grayscale': !active(recipe) }" :src="recipe.image">
+          <div class="text-gray-900 p-2 z-10 text-center">
             {{ recipe.title }}
           </div>
         </div>
       </div>
     </div>
     <div class="flex justify-center mb-4">
-      <button class="bg-green-600 hover:bg-green-700 p-4 rounded-full text-white">
+      <button class="bg-green-600 hover:bg-green-700 p-4 rounded-full text-white" @click="next">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
         </svg>
@@ -28,7 +28,7 @@
 
 <script>
 export default {
-  transition: 'home',
+  transition: 'fade',
   data () {
     return {
       chosen: [],
@@ -55,23 +55,20 @@ export default {
       } else {
         this.chosen.push(recipe)
       }
+    },
+    next () {
+      // TODO: Send recipes to backend
+      this.$router.push('/shopping-list')
     }
   }
 }
 </script>
 
 <style>
-  .home-enter {
-    transform: translateX(50%);
-    opacity: 0;
-  }
-  .home-enter-to, .home-leave {
-    transform: translateX(0);
-    opacity: 100%;
-  }
-  .home-leave-to {
-    transform: translateX(-50%);
-    opacity: 0;
-  }
-  .home-enter-active, .home-leave-active { transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; }
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
 </style>
