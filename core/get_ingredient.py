@@ -5,11 +5,11 @@ import utils
 
 import get_units
 
-nltk.download('punkt')
-nltk.download('averaged_perceptron_tagger')
-nltk.download('maxent_ne_chunker')
-nltk.download('words')
-nltk.download('universal_tagset')
+# nltk.download('punkt')
+# nltk.download('averaged_perceptron_tagger')
+# nltk.download('maxent_ne_chunker')
+# nltk.download('words')
+# nltk.download('universal_tagset')
 
 def get_ingredient(ing):
     ing = ' '.join(utils.tokenize(ing)).lower()
