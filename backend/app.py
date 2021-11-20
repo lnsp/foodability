@@ -6,16 +6,18 @@ app = Flask(__name__)
 def status():
     return jsonify({ 'status': 'ok' })
 
-@app.route("/api/tags")
+@app.route("/api/all-tags")
 def tags():
     return jsonify({ 'tags': [] })
 
-@app.route("/api/recipes", methods=['POST'])
-def recipes():
-    return jsonify({ 'recipes': [] })
+@app.route("/api/plan", methods=['POST'])
+def plan():
+    excluded = request.json
+    # handle excluded recipes, make tag and recipe recommendations
+    return jsonify({ 'recommended': [], 'recipes': [] })
 
-@app.route("/api/shopping-list", methods=['POST'])
+@app.route("/api/shop", methods=['POST'])
 def shopping_list():
-    return jsonify({ 'items': [] })
+    return jsonify({ 'shoppingList': [], 'recipes': [] })
 
 app.run(host='0.0.0.0')
