@@ -8,5 +8,11 @@ def tokenize(s: str) -> list:
     return sentence
 
 
+def load_from_pickle(file="recipes.pickle"):
+    with open("recipes.pickle", "rb") as file:
+        l = pickle.load(file)
+        return l
+
+
 if __name__ == "__main__":
     s = tokenize("red tomato  - hallo - sdsdd - \n")
