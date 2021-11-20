@@ -1,6 +1,8 @@
 import math
 import pandas as pd
 import numpy as np
+import sys
+import pickle
 
 
 class FoodItem:
@@ -34,14 +36,25 @@ def load_csv(file="food_data.csv"):
     return df
 
 
-if __name__ == "__main__":
+def create_pickle():
     df = load_csv()
     food_items = []
-    print(len(df))
-    for i in range(100000):
+    for i in range(len(df)):
+        j = (i + 1) / len(df)
+        if i % 100:
+            sys.stdout.write('\r')
+            sys.stdout.write(f"{j:.2%}")
+            sys.stdout.flush()
         food_items.append(FoodItem(df.iloc[i]))
     
     print("Finished loading objects")
 
-    while True:
-        pass
+    with open("food.pickle", "wb") as file:
+        pickle.dump(food_items, file)
+        print("Finished pickling")
+
+
+def load_from_pickle(file="food.pickle"):
+    with open("food.pickle", "rb") as file:
+        l = pickle.load(file)
+        return l
