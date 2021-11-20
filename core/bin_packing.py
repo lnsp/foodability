@@ -20,23 +20,26 @@ def calculate_ingredients(recipe, food_manager, ingredient_list, print_=False):
             if (not is_pcs) and food_item.weight > 0:
                 q /= food_item.weight
             
-            ingredient_list.setdefault(food_item, 0)
-            ingredient_list[food_item] += q
+            ingredient_list.setdefault(food_item, [0,0])
+            ingredient_list[food_item][0] += q
+            ingredient_list[food_item][1] += 1
 
 def calculate_waste(ingredient_list):
     waste = 0
     total = 0
     for ing, q in ingredient_list.items():
+        q = q[0]
         overshoot = math.ceil(q) - q
         waste += overshoot * ing.weight
         total += q * ing.weight
-    return waste / total
+    return waste, total
 
 def compute_score(plan, recipes, food_manager):
     ingredient_list = {}
     for recipe_idx in plan:
         calculate_ingredients(recipes[recipe_idx], food_manager, ingredient_list)
-    return calculate_waste(ingredient_list)
+    waste, total = calculate_waste(ingredient_list)
+    return waste
 
 def pack_bins(bins, fixed, recipes, food_manager):
     score = compute_score(bins, recipes, food_manager)
@@ -49,12 +52,11 @@ def pack_bins(bins, fixed, recipes, food_manager):
             score_new = compute_score(bins_new, recipes, food_manager)
 
             if score_new < score+random.uniform(0., 0.03):
-                print(score, score_new)
                 score = score_new
                 bins = bins_new
     return bins
 
-def init_bins(days):
+def init_bins(days, recipes):
     bins = []
     for _ in range(days):
         idx = random.randrange(len(recipes))
