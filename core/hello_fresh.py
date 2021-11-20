@@ -5,7 +5,7 @@ import re
 import requests
 from recipe_scrapers import scrape_me
 from tqdm import tqdm
-import recipes
+import recipes_manager
 
 
 def get_recipe_links(page):
@@ -37,14 +37,14 @@ def get_recipe_links(page):
 
 
 if __name__ == "__main__":
-    recipes = []
+    my_recipes = []
     
-    for i in range(50):
+    for i in range(10):
         links = get_recipe_links(i)
         for link in tqdm(links):
-            recipe = recipes.Recipe(link)
-            recipes.append(recipe)
+            recipe = recipes_manager.Recipe(link)
+            my_recipes.append(recipe)
         if i % 5 == 4:
             with open("recipes.pickle", "wb") as file:
-                pickle.dump(recipes, file)
+                pickle.dump(my_recipes, file)
             print("saved", i, "pages")

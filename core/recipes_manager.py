@@ -26,8 +26,10 @@ class Recipe:
         yields = get_numbers.get_numbers(scraper.yields())
         if yields == None or yields <= 0:
             yields = 1
-
         self.ingredients = [build_ingredient(ingredient, yields) for ingredient in scraper.ingredients()]
+        self.title = scraper.title()
+        self.total_time = scraper.total_time()
+        
     def __str__(self):
         ret = "url: {0}\ningredients:".format(self.url)
         for ing in self.ingredients:
