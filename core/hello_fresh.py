@@ -6,6 +6,7 @@ import requests
 from recipe_scrapers import scrape_me
 from tqdm import tqdm
 import recipes_manager
+import pickle
 
 
 def get_recipe_links(page):

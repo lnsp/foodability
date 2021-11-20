@@ -1,6 +1,7 @@
 from recipe_scrapers import scrape_me
 import nltk
 import re
+import utils
 
 import get_units
 
@@ -11,6 +12,7 @@ nltk.download('words')
 nltk.download('universal_tagset')
 
 def get_ingredient(ing):
+    ing = ' '.join(utils.tokenize(ing)).lower()
     tokens = nltk.word_tokenize(ing)
     tagged = nltk.pos_tag(tokens, tagset='universal')
     words = []

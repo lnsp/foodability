@@ -22,12 +22,15 @@ def build_ingredient(ingredient, yields):
 class Recipe:
     def __init__(self, url):
         self.url = url
-        scraper = scrape_me(url, wild_mode=True)
+        scraper = scrape_me(url, wild_mode=False)
         yields = get_numbers.get_numbers(scraper.yields())
         if yields == None or yields <= 0:
             yields = 1
         self.ingredients = [build_ingredient(ingredient, yields) for ingredient in scraper.ingredients()]
-        self.title = scraper.title()
+        try:
+            self.title = scraper.title()
+        except:
+            self.title = "Untitled Recipe"
         self.total_time = scraper.total_time()
         
     def __str__(self):

@@ -48,6 +48,9 @@ class FoodManager:
         l = sorted(found_items.items(), key=lambda x: (x[1], self.food_items[x[0]].data_score))
 
         return [e[0] for e in l[:k]]
+    
+    def get_food_item_by_tag(self, tags):
+        return self.food_items[self.get_food_items_by_tag(tags, k=1)[0]]
 
     def init_tag_to_food_items(self, obj_id, tags):
         for s in set(tags):

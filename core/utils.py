@@ -1,4 +1,6 @@
 import re
+import pickle
+
 
 def tokenize(s: str) -> list:
     """Returns a list of token for the given string"""
