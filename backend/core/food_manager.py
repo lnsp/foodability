@@ -44,10 +44,11 @@ class FoodItem:
 
 class FoodManager:
 
-    def __init__(self, food_items: List[FoodItem]):
+    def __init__(self, food_items: List[FoodItem], basic_items: List[FoodItem]=[]):
         # Maps tags to lists of indices that correspond to food's position in food_items
         self.tag_to_food_items = dict()
-        self.food_items = food_items
+        self.food_items = food_items + basic_items
+        self.basic_items = basic_items
         #Only allow items with a weight
         self.filter_by_has_weight()
         
@@ -75,7 +76,11 @@ class FoodManager:
                 pass
 
         # Sort food items by number of occurrences
-        l = sorted(found_items.items(), key=lambda x: (-x[1], len(self.food_items[x[0]].tags)))
+        # In ascending order
+        num_normal_food = len(self.food_items) - len(self.basic_items)
+        l = sorted(
+            found_items.items(),
+            key=lambda x: (-x[1], len(self.food_items[x[0]].tags) + (0 if x[0] < num_normal_food else -10)))
 
         return [e[0] for e in l[:k]]
     
@@ -95,13 +100,15 @@ class FoodManager:
             self.tag_to_food_items[s].append(obj_id)
 
 
-def assemble(food_file="food.pickle"):
+def assemble(food_file="food.pickle", basic_file="basics.pickle"):
     with open(food_file, "rb") as file:
         l = RenameUnpickler(file).load()
+    with open(basic_file, "rb") as file:
+        basics = RenameUnpickler(file).load()
     for item in l:
         item.compute_data_score()
     print("Loaded pickle file")
-    manager = FoodManager(l)
+    manager = FoodManager(l, basic_items=basics)
     print("Assembled food manager")
     return manager
 
