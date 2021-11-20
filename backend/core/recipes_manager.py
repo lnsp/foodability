@@ -32,6 +32,7 @@ class Recipe:
             self.title = scraper.title()
         except:
             self.title = "Untitled Recipe"
+        self.image = scraper.image()
         self.total_time = scraper.total_time()
         
     def __str__(self):
