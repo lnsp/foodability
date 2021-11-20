@@ -1,7 +1,5 @@
 import re
 import pickle
-from food_manager import FoodItem
-from recipes_manager import Recipe
 
 def tokenize(s: str) -> list:
     """Returns a list of token for the given string"""

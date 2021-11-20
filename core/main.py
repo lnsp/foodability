@@ -44,8 +44,7 @@ class RecipePreselector:
 
     def get_recipes(self, tags, k=100, size=50):
         self.selected_recipes = self.compute_initial_recipes_(tags, k=k)
-        original_recipes = list(self.selected_recipes)
-        if len(self.selected_recipes) > size:
+        if len(self.selected_recipes) > size or len(self.selected_recipes) == 0:
             return self.selected_recipes
         for _ in range(size - len(self.selected_recipes)):
             r_idx = self.selected_recipes[random.randint(0, len(self.selected_recipes)-1)]
@@ -59,7 +58,7 @@ class RecipePreselector:
 if __name__ == "__main__":
     manager = FoodManager(get_food_items())
     recipes = get_recipes()
-    tags = ["bread"]
+    tags = ["garlic", "bread"]
     selector = RecipePreselector(manager, recipes)
     l = selector.get_recipes(tags, k=20, size=10)
     for r_idx in l:
