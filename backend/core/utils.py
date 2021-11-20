@@ -15,6 +15,8 @@ class RenameUnpickler(pickle.Unpickler):
             renamed_module = "core.recipes_manager"
         elif module == "food_manager":
             renamed_module = "core.food_manager"
+        elif module == 'FoodItem':
+            renamed_module = "core.food_manager.FoodItem"
 
         return super(RenameUnpickler, self).find_class(renamed_module, name)
 

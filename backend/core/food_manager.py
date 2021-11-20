@@ -1,4 +1,5 @@
 from typing import List
+from .utils import RenameUnpickler
 import pickle
 import pandas as pd
 import math
@@ -75,7 +76,7 @@ class FoodManager:
 
 def assemble(food_file="food.pickle"):
     with open(food_file, "rb") as file:
-        l = pickle.load(file)
+        l = RenameUnpickler(file).load()
     for item in l:
         item.compute_data_score()
     print("Loaded pickle file")
