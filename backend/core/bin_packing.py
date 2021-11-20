@@ -34,22 +34,25 @@ def calculate_waste(ingredient_list):
         total += q * ing.weight
     return waste, total
 
-def compute_score(plan, recipes, food_manager):
+def compute_score(bins_fixed, bins, recipes, food_manager):
     ingredient_list = {}
-    for recipe_idx in plan:
-        calculate_ingredients(recipes[recipe_idx], food_manager, ingredient_list)
+    for r in bins:
+        calculate_ingredients(r, food_manager, ingredient_list)
+    for r in bins_fixed:
+        calculate_ingredients(r, food_manager, ingredient_list)
     waste, total = calculate_waste(ingredient_list)
     return waste
 
-def pack_bins(bins, fixed, recipes, food_manager):
-    score = compute_score(bins, recipes, food_manager)
+def pack_bins(bins_fixed, bins, recipes, food_manager):
+    score = compute_score(bins_fixed, bins, recipes, food_manager)
     for i in range(1000):
         alter_idx = random.randrange(len(bins))
         value = random.randrange(len(recipes))
-        if not value in bins and not fixed[alter_idx]:
+        value = recipes[value]
+        if not value in bins:
             bins_new = copy.copy(bins)
             bins_new[alter_idx] = value
-            score_new = compute_score(bins_new, recipes, food_manager)
+            score_new = compute_score(bins_fixed, bins_new, recipes, food_manager)
 
             if score_new < score+random.uniform(0., 0.03):
                 score = score_new
@@ -60,9 +63,10 @@ def init_bins(days, recipes):
     bins = []
     for _ in range(days):
         idx = random.randrange(len(recipes))
+        idx = recipes[idx]
         if idx not in bins:
             bins.append(idx)
-    return bins, [False for _ in range(days)]
+    return [], bins
 
 if __name__ == "__main__":
     recipes = load_from_pickle(file="recipes.pickle")

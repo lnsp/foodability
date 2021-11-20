@@ -24,7 +24,7 @@ def init_all():
 def print_stats(recipes, food, bins):
     ingredient_list = {}
     for b in bins:
-        calculate_ingredients(recipes[b], food, ingredient_list, True)
+        calculate_ingredients(b, food, ingredient_list, True)
     
     print("Ingredient List")
     for ing, amt in ingredient_list.items():
@@ -32,6 +32,6 @@ def print_stats(recipes, food, bins):
 
     print("Recipes")
     for b in bins:
-        print(recipes[b])
+        print(b)
 
     print("total waste", calculate_waste(ingredient_list))
