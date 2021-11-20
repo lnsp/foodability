@@ -2,7 +2,7 @@ from core.main import *
 from core.bin_packing import get_total_packaging
 
 if __name__ == "__main__":
-    recipes, food, selector = init_all()
+    recipes, food, selector = init_all(food_pickle="min_food.pickle")
     
     tags = ["broccoli"]
 

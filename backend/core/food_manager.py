@@ -32,13 +32,13 @@ class FoodItem:
         glass = 0
         pa = max(self.packaging_area, 3.)
         if "plastic" in self.packaging_materials:
-            plastic += self.packaging_area * amt
+            plastic += pa * amt
         if "metal" in self.packaging_materials:
-            metal += self.packaging_area * amt
+            metal += pa * amt
         if "carton" in self.packaging_materials:
-            carton += self.packaging_area * amt
+            carton += pa * amt
         if "glass" in self.packaging_materials:
-            glass += self.packaging_area * amt
+            glass += pa * amt
         return plastic, metal, carton, glass
             
 
@@ -82,6 +82,9 @@ class FoodManager:
     def get_food_item_by_tag(self, tags):
         food = self.get_food_items_by_tag(tags, k=1)
         if len(food) > 0:
+            print(tags, self.food_items[food[0]].name, self.food_items[food[0]].weight)
+            for x in self.get_food_items_by_tag(tags):
+                print("Alternative", self.food_items[x].name, self.food_items[x].weight)
             return self.food_items[food[0]]
         else: 
             return None
