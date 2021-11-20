@@ -33,7 +33,10 @@ class Recipe:
         except:
             self.title = "Untitled Recipe"
         self.image = scraper.image()
-        self.total_time = scraper.total_time()
+        try:
+            self.total_time = scraper.total_time()
+        except:
+            self.total_time = 40
         
     def __str__(self):
         ret = "url: {0}\ningredients:".format(self.url)
