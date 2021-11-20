@@ -15,10 +15,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      - name: Login to Azure
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      # - name: Login to Azure
+      #   uses: azure/login@v1
+      #   with:
+      #     creds: ${{ secrets.AZURE_CREDENTIALS }}
       -
         name: Login to ACR
         uses: docker/login-action@v1 
@@ -40,9 +40,9 @@ jobs:
           context: backend
           push: true
           tags: foodability.azurecr.io/backend:latest
-      - name: Restart container
-        uses: azure/CLI@v1
-        with:
-          azcliversion: latest
-          inlineScript: |
-            az container restart --name backend --resource-group container-registry --no-wait
+     #  - name: Restart container
+     #    uses: azure/CLI@v1
+     #    with:
+     #      azcliversion: latest
+     #      inlineScript: |
+     #        az container restart --name backend --resource-group container-registry --no-wait
