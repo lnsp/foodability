@@ -11,29 +11,29 @@
       </div>
     </div>
     <div class="flex flex-wrap gap-2 mt-4">
-        <div v-for="tag in recommended"
-             :key="tag"
-             class="bg-green-700 text-sm px-2 py-1 text-white rounded flex items-center w-min">
-          <span>{{ tag }}</span>
-        </div>
+      <div v-for="tag in recommended"
+           :key="tag"
+           class="bg-green-700 text-sm px-2 py-1 text-white rounded flex items-center w-min">
+        <span>{{ tag }}</span>
+      </div>
     </div>
     <div class="my-4 flex-grow h-0 overflow-y-scroll py-2 border-t-2 border-b border-green-600">
       <div class="grid gap-4 grid-rows-auto auto-rows-fr">
         <div v-for="recipe in filtered"
              :key="recipe.title"
-             class="cursor-pointer overflow-hidden relative rounded-lg border-2 flex flex-row justify-between items-center bg-gray-100 transform transition hover:opacity-100"
+             class="cursor-pointer overflow-hidden relative h-24 rounded-lg border-2 flex flex-row justify-between items-center bg-gray-100 transform transition hover:opacity-100"
              :class="isChosen(recipe) ? ['border-green-500'] : ['border-gray-400', 'opacity-75']"
              @click="toggle(recipe)">
-             <div class="flex gap-4 items-center">
-
-          <img class="flex-shrink-0 h-full w-16 sm:w-24 object-cover filter z-0"
-               :class="{ 'grayscale': !isChosen(recipe) }"
-               :src="recipe.image" v-if="recipe.image">
-          <div class="text-gray-900 mx-2 text-sm">
-            {{ recipe.title }}
+          <div class="flex gap-4 items-center h-full">
+            <img class="flex-shrink-0 h-full w-16 sm:w-24 object-cover filter z-0"
+                 :class="{ 'grayscale': !isChosen(recipe) }"
+                 :src="recipe.image"
+                 v-if="recipe.image">
+            <div class="text-gray-900 mx-2 text-sm">
+              {{ recipe.title }}
+            </div>
           </div>
-          </div>
-          <button class="w-8 h-8 flex justify-center items-center transition rounded-lg  mr-4 hover:bg-green-600 hover:text-white"
+          <button class="w-8 h-8 flex flex-shrink-0 justify-center items-center transition rounded-lg  mr-4 hover:bg-green-600 hover:text-white"
                   @click="exclude(recipe)">
             <svg xmlns="http://www.w3.org/2000/svg"
                  class="h-5 w-5"
@@ -85,17 +85,17 @@ export default {
   transition: "fade",
   computed: {
     uid() {
-      return this.$store.state.food.uid
+      return this.$store.state.food.uid;
     },
     chosenTags() {
-      return this.$store.state.food.tags
+      return this.$store.state.food.tags;
     },
     chosenDays() {
-      return this.$store.state.food.days
+      return this.$store.state.food.days;
     },
-    filtered () {
-      return this.recipes.filter(r => this.excluded.indexOf(r.title) === -1)
-    }
+    filtered() {
+      return this.recipes.filter((r) => this.excluded.indexOf(r.title) === -1);
+    },
   },
   mounted() {
     this.fetch();
@@ -118,7 +118,7 @@ export default {
       if (chosenIndex !== -1) {
         this.chosen.splice(chosenIndex, 1);
       }
-      console.log(recipe, this.excluded)
+      console.log(recipe, this.excluded);
     },
     toggle(recipe) {
       const index = this.chosen.indexOf(recipe.title);
@@ -136,16 +136,16 @@ export default {
           excluded: this.excluded,
           chosen: this.chosen,
         },
-        days: this.chosenDays
+        days: this.chosenDays,
       });
-      this.recommended = response.recommended
-      this.recipes = response.recipes
+      this.recommended = response.recommended;
+      this.recipes = response.recipes;
     },
-    isExcluded (recipe) {
-      return this.excluded.includes(recipe.title)
+    isExcluded(recipe) {
+      return this.excluded.includes(recipe.title);
     },
-    isChosen (recipe) {
-      return this.chosen.includes(recipe.title)
+    isChosen(recipe) {
+      return this.chosen.includes(recipe.title);
     },
     next() {
       // TODO: Send recipes to backend

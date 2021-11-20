@@ -11,13 +11,13 @@ if os.getenv('DOWNLOAD_PICKLE'):
 
     print('Fetch pickle files from Azure Storage container', container_str)
     blob_service_client = BlobServiceClient.from_connection_string(connect_str)
-    for fpath in ['min_food.pickle', 'recipes.pickle']:
+    for fpath in ['food.pickle', 'recipes.pickle']:
         blob_client = blob_service_client.get_blob_client(container=container_str, blob=fpath)
         with open(fpath, "wb") as pickle_file:
             pickle_file.write(blob_client.download_blob().readall())
         print('Fetched %s from Azure Blob storage' % fpath)
 
-recipes, food_manager, recipe_selector = init_all()
+recipes, food_manager, recipe_selector = init_all(food_pickle='food.pickle')
 app = Flask(__name__)
 CORS(app)
 
@@ -66,7 +66,7 @@ def plan():
     # print('possible_bins', list(map(lambda x: x.title, possible_bins)))
 
     new_possible_bins = pack_bins(fixed_bins, possible_bins, current_recipes, food_manager)
-    json_recipes = list(map(lambda x: {'title': x.title }, fixed_bins + new_possible_bins))
+    json_recipes = list(map(lambda x: {'title': x.title, 'image': x.image}, fixed_bins + new_possible_bins))
     return jsonify({'recommended': tags, 'recipes': json_recipes})
 
 

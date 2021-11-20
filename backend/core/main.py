@@ -8,9 +8,9 @@ import random
 from .bin_packing import pack_bins, calculate_ingredients, init_bins, calculate_waste
 from .recipe_preselector import RecipePreselector
 
-def init_all():
-    recipes = load_from_pickle(file="recipes.pickle")
-    food = assemble(food_file="min_food.pickle")
+def init_all(food_pickle="min_food.pickle", recipe_pickle="recipes.pickle"):
+    recipes = load_from_pickle(file=recipe_pickle)
+    food = assemble(food_file=food_pickle)
     
     recipes = remove_duplicate_recipes(recipes)
     recipes = remove_nonsense_recipes(recipes)
