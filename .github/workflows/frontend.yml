@@ -31,4 +31,4 @@ jobs:
         with:
           context: frontend
           push: true
-          tags: foodability/frontend:latest
+          tags: foodability.azurecr.io/frontend:latest
