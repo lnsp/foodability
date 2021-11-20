@@ -40,6 +40,8 @@ jobs:
           context: backend
           push: true
           tags: foodability.azurecr.io/backend:latest
+          build-args:
+            GIT_COMMIT: ${{ github.sha }}
      #  - name: Restart container
      #    uses: azure/CLI@v1
      #    with:

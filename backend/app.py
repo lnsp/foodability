@@ -4,6 +4,7 @@ from flask_cors import CORS
 from core.main import *
 from uuid import uuid4
 from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
+import time
 
 if os.getenv('DOWNLOAD_PICKLE'):
     connect_str = os.getenv('AZURE_STORAGE_CONNECTION')
@@ -24,6 +25,10 @@ CORS(app)
 @app.route("/")
 def status():
     return jsonify({'status': 'ok'})
+
+@app.route("/api/version")
+def version():
+    return jsonify({'version': os.getenv('GIT_COMMIT')})
 
 user_recipes = {}
 
