@@ -82,6 +82,9 @@
 export default {
   transition: "fade",
   computed: {
+    uid() {
+      return this.$store.state.food.uid
+    },
     chosenTags() {
       return this.$store.state.food.tags
     },
@@ -110,6 +113,7 @@ export default {
       if (chosenIndex !== -1) {
         this.chosen.splice(chosenIndex, 1);
       }
+      console.log(recipe, this.excluded)
     },
     toggle(recipe) {
       const index = this.chosen.indexOf(recipe.title);
@@ -121,6 +125,7 @@ export default {
     },
     async fetch() {
       const response = await this.$axios.$post("/plan", {
+        uid: this.uid,
         tags: this.chosenTags,
         recipes: {
           excluded: this.excluded,

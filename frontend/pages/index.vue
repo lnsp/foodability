@@ -96,6 +96,7 @@ export default {
     async fetchTags() {
       let response = await this.$axios.$get("/all-tags");
       this.tags = response.tags;
+      this.$store.commit('food/uid', response.uid)
     },
     drop(tag) {
       const index = this.tags.indexOf(tag);

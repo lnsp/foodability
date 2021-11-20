@@ -19,6 +19,7 @@
     <main class="rounded-lg w-full max-w-lg flex-grow mt-8 bg-white z-10 overflow-hidden relative">
       <Nuxt />
     </main>
+    <div class="mt-4 text-green-100 text-xs font-mono">{{ uid }}</div>
   </div>
 </template>
 
@@ -45,3 +46,13 @@ html, body {
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 </style>
+
+<script>
+export default {
+  computed: {
+    uid() {
+      return this.$store.state.food.uid
+    }
+  }
+}
+</script>

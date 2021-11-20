@@ -2,6 +2,7 @@ export const state = () => ({
   tags: [],
   recipes: [],
   days: 5,
+  uid: '',
 })
 
 export const mutations = {
@@ -13,5 +14,8 @@ export const mutations = {
   },
   days(state, days) {
     state.days = days
+  },
+  uid(state, uid) {
+    state.uid = uid
   }
 }
