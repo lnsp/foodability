@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request, jsonify
 
 app = Flask(__name__)
@@ -38,4 +39,4 @@ def shopping_list():
     return jsonify({'shoppingList': [], 'recipes': []})
 
 
-app.run(host='0.0.0.0')
+app.run(host='0.0.0.0', port=int(os.getenv('FLASK_PORT', default='9876')))
