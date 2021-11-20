@@ -49,7 +49,7 @@ def pack_bins(bins_fixed, bins, recipes, food_manager):
         alter_idx = random.randrange(len(bins))
         value = random.randrange(len(recipes))
         value = recipes[value]
-        if not value in bins:
+        if not value in (bins + bins_fixed):
             bins_new = copy.copy(bins)
             bins_new[alter_idx] = value
             score_new = compute_score(bins_fixed, bins_new, recipes, food_manager)
