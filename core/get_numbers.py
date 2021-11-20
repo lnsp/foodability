@@ -42,6 +42,38 @@ def find_number_range_div(s):
         return (number_1 + number_2) / 2
     return None
 
+def find_number_special(s):
+    if s.find("½") != -1:
+        return 1/2
+    if s.find("¼") != -1:
+        return 1/4
+    if s.find("¾") != -1:
+        return 3/4
+    if s.find("⅓") != -1:
+        return 1/3
+    if s.find("⅔") != -1:
+        return 2/3
+    if s.find("⅕") != -1:
+        return 1/5
+    if s.find("⅗") != -1:
+        return 3/5
+    if s.find("⅘") != -1:
+        return 4/5
+    if s.find("⅙") != -1:
+        return 1/6
+    if s.find("⅚") != -1:
+        return 5/6
+    if s.find("⅛") != -1:
+        return 1/8
+    if s.find("⅜") != -1:
+        return 3/8
+    if s.find("⅝") != -1:
+        return 5/8
+    if s.find("⅞") != -1:
+        return 7/8
+    return None
+    
+
 def text2int(textnum):
     units = [
         "zero", "one", "two", "three", "four", "five", "six", "seven", "eight",
@@ -77,7 +109,11 @@ def text2int(textnum):
         return None
     return ret
 
-def parse_ingredient_number(ingredient):
+def get_numbers(ingredient):
+    ret = find_number_special(ingredient)
+    if ret:
+        return ret
+
     ret = find_number_range_div(ingredient)
     if ret:
         return ret
@@ -98,7 +134,7 @@ def parse_ingredient_number(ingredient):
     if ret:
         return ret
 
-    return none
+    return None
 
 if __name__ == "__main__":
     test_ingredients = [
@@ -110,7 +146,8 @@ if __name__ == "__main__":
         "3/4 - 2 4/5", 
         "3.5 - 4",
         "3.43243",
-        "my three hundred eighty-five eggs"
+        "my three hundred eighty-five eggs",
+        "⅜",
     ]
     for ingredient in test_ingredients:
-        print(ingredient, parse_ingredient_number(ingredient))
+        print(ingredient, get_numbers(ingredient))

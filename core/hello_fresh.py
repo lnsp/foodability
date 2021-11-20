@@ -1,9 +1,14 @@
-import requests
-import json
 import datetime
+import json
 import re
 
-def get_recipe_links_hello_fresh(pages):
+import requests
+from recipe_scrapers import scrape_me
+from tqdm import tqdm
+import recipes
+
+
+def get_recipe_links(page):
     today = datetime.datetime.today()
     session = requests.session()
 
@@ -19,16 +24,27 @@ def get_recipe_links_hello_fresh(pages):
     ]
 
     found = []
-    for i in range(pages):
-        url = "https://www.hellofresh.com/recipes/search/?page=" + str(i)
-        raw = session.get(url, headers=headers).text
-        match = re.finditer(r'"(https://www.hellofresh.com/recipes/[^"]*)"', raw)
-        for m in match:
-            s = m.group(1)
-            if not(s[:-1] == url[:-1] or s in blacklist):
-                found.append(s)
+
+    url = "https://www.hellofresh.com/recipes/search/?page=" + str(page)
+    raw = session.get(url, headers=headers).text
+    match = re.finditer(r'"(https://www.hellofresh.com/recipes/[^"]*)"', raw)
+    for m in match:
+        s = m.group(1)
+        if not(s[:-1] == url[:-1] or s in blacklist):
+            found.append(s)
+
     return found
 
 
 if __name__ == "__main__":
-    print(get_recipe_links_hello_fresh(30))
+    recipes = []
+    
+    for i in range(50):
+        links = get_recipe_links(i)
+        for link in tqdm(links):
+            recipe = recipes.Recipe(link)
+            recipes.append(recipe)
+        if i % 5 == 4:
+            with open("recipes.pickle", "wb") as file:
+                pickle.dump(recipes, file)
+            print("saved", i, "pages")

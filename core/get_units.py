@@ -38,7 +38,7 @@ def get_units(s):
     if re.search("tsp", s, re.IGNORECASE):
         return (4.92892, "v")
     if re.search("cup", s, re.IGNORECASE):
-        return (4.92892, "v")
+        return (236.588, "v")
     return None
 
 if __name__ == "__main__":
