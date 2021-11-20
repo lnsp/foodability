@@ -51,7 +51,9 @@ export default {
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    baseURL: process.env.NODE_ENV == 'production' ? '/api' : 'http://localhost:9876/api',
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
@@ -63,7 +65,7 @@ export default {
 
   googleFonts: {
     families: {
-      Poppins: true
+      Poppins: [400, 500, 600, 700, 800]
     }
   }
 }

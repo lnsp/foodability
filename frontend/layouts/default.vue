@@ -1,7 +1,7 @@
 <template>
   <div class="h-screen flex flex-col w-full items-center p-8 overflow-hidden pretty-bg">
     <header class="z-10 w-full">
-      <h1 class="text-4xl font-bold flex justify-center items-center pt-6 pb-4 text-white brand">
+      <h1 class="text-4xl font-medium flex justify-center items-center pt-6 pb-4 text-white brand">
         <svg aria-hidden="true"
              focusable="false"
              data-prefix="fas"

@@ -1,18 +1,31 @@
 <template>
   <div class="p-6 flex flex-col justify-between h-full">
     <div class="flex-grow">
-      <div class="text-4xl font-black text-center">
+      <div class="flex items-center">
+      <div class="brand text-4xl font-black inline-block p-3 bg-green-700 w-16 h-16 text-white">
         I.
       </div>
-      <div class="text-xl mt-4">
-        What would you like to eat?
+      <div class="text-xl ml-4 items-center">
+        I would like to eat for
+        <input type="number" v-model="numberOfDays" class="mx-3 border-2 bg-gray-100 rounded-lg border-green-600 px-4 py-2 text-lg w-16 text-center">
+        days.
+      </div>
+      </div>
+      <div class="w-full my-4 border-b border-green-600" />
+      <div class="flex items-center gap-4">
+      <div class="brand text-4xl font-black inline-block p-3 bg-green-700 w-16 h-16 text-white">
+        II.
+      </div>
+      <div class="text-xl">
+        I especially like
       </div>
       <form @submit.prevent="add()">
-        <input type="text" class="px-4 py-2 bg-gray-100 border-2 border-green-600 focus:border-green-900 w-full mt-4 rounded-lg" placeholder="banana" v-model="current">
+        <input type="text" class="px-4 py-2 bg-gray-100 border-2 border-green-600 focus:border-green-900 w-full rounded-lg" placeholder="banana" v-model="current">
         <div class="text-xs text-red-500 mt-2" v-if="error(current)">
           {{ error(current) }}
         </div>
       </form>
+      </div>
       <transition-group name="fade" tag="div" class="flex flex-wrap mt-4 gap-2">
         <div v-for="tag in tags" :key="tag" class="bg-green-700 hover:bg-green-800 text-sm px-2 py-1 text-white rounded flex items-center w-min">
           <span>{{ tag }}</span>
@@ -39,11 +52,21 @@ export default {
   transition: 'fade',
   data () {
     return {
+      available: [],
       tags: ['pancakes', 'apple'],
-      current: ''
+      current: '',
+      numberOfDays: 5
     }
   },
+  mounted() {
+    // fetch tags from api
+    this.fetchTags()
+  },
   methods: {
+    async fetchTags () {
+      let response = await this.$axios.$get('/all-tags')
+      this.tags = response.tags
+    },
     drop (tag) {
       const index = this.tags.indexOf(tag)
       this.tags.splice(index, 1)

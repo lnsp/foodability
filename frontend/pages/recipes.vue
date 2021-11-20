@@ -1,11 +1,13 @@
 <template>
   <div class="p-6 flex flex-col justify-between h-full">
     <div class="flex-grow">
-      <div class="text-4xl font-black text-center">
-        II.
+      <div class="flex items-center gap-4">
+      <div class="brand text-4xl font-black inline-block p-3 bg-green-700 w-16 h-16 text-white">
+        III.
       </div>
-      <div class="text-xl mt-4 text-center">
-        Choose your meals!
+      <div class="text-xl">
+        Choose your favorite meals.
+      </div>
       </div>
       <div class="grid gap-4 mt-4 grid-cols-2 sm:grid-cols-3">
         <div v-for="recipe in recipes" :key="recipe.title" class="cursor-pointer overflow-hidden relative rounded-lg border-2 flex flex-col bg-gray-100 transform transition" :class="active(recipe) ? ['shadow-lg', 'border-green-500', 'scale-105'] : ['border-gray-400', 'opacity-75']" @click="toggle(recipe)">
