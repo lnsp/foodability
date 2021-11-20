@@ -12,7 +12,6 @@ def build_ingredient(ingredient, yields):
     if num == None:
         num = 1
     if unit == None:
-        num = 1
         is_unit = True
     else:
         num = num * unit[0]
