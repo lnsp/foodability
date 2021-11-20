@@ -65,6 +65,18 @@ def init_bins(days, recipes):
     random.shuffle(recipes)
     return [], recipes[:min(days, len(recipes))]
 
+def get_total_packaging(ingredient_list):
+    plastic, metal, carton, glass = 0,0,0,0
+    for ing, amt in ingredient_list.items():
+        amt = amt[0]
+        plastic_, metal_, carton_, glass_ = ing.get_packaging(amt)
+        plastic += plastic_
+        metal += metal_
+        carton += carton_
+        glass += glass_
+    return plastic, metal, carton, glass
+
+
 if __name__ == "__main__":
     recipes = load_from_pickle(file="recipes.pickle")
     food_manager = food_manager.assemble(food_file="min_food.pickle")

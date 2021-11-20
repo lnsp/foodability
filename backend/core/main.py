@@ -7,6 +7,7 @@ from .graph import Graph
 import random
 from .bin_packing import pack_bins, calculate_ingredients, init_bins, calculate_waste
 from .recipe_preselector import RecipePreselector
+from .bin_packing import get_total_packaging
 
 def init_all(food_pickle="min_food.pickle", recipe_pickle="recipes.pickle"):
     recipes = load_from_pickle(file=recipe_pickle)
@@ -35,3 +36,5 @@ def print_stats(recipes, food, bins):
         print(b)
 
     print("total waste", calculate_waste(ingredient_list))
+
+    print(get_total_packaging(ingredient_list))

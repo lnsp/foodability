@@ -23,6 +23,23 @@ class FoodItem:
         if not hasattr(self, "data_score"):
             #self.data_score = (len(self.tags), -0.5*len(self.packaging_materials) - (1 if not math.isnan(self.packaging_area) else 0))
             self.data_score = len(self.tags)
+    
+    def get_packaging(self, amt=1):
+        amt = math.ceil(amt)
+        plastic = 0
+        metal = 0
+        carton = 0
+        glass = 0
+        if "plastic" in self.packaging_materials:
+            plastic += self.packaging_area * amt
+        if "metal" in self.packaging_materials:
+            metal += self.packaging_area * amt
+        if "carton" in self.packaging_materials:
+            carton += self.packaging_area * amt
+        if "glass" in self.packaging_materials:
+            glass += self.packaging_area * amt
+        return plastic, metal, carton, glass
+            
 
 class FoodManager:
 
