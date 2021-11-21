@@ -83,7 +83,7 @@ export default {
   data() {
     return {
       available: [],
-      tags: ["pancakes", "apple"],
+      tags: [],
       current: "",
       days: 5,
     };
