@@ -51,6 +51,8 @@ def waste():
     waste, total_amount = calculate_waste(ingredient_list)
     rel_waste = waste / total_amount
 
+    print(waste, total_amount, rel_waste)
+
     plastic, metal, carton, glass = get_total_packaging(ingredient_list)
     return jsonify({
         'waste': {
@@ -139,6 +141,7 @@ def shopping_list():
         readable_ingredients.append({
             'unit': weight_unit(ing.weight * amt[0]),
             'weight': format_weight(amt[0] * ing.weight),
+            'usedby': '' if amt[1] == 1 else 'used by %d' % amt[1],
             'name': ing.name
         })
 
