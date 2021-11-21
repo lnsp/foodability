@@ -8,7 +8,7 @@
         Go buy these items.
       </div>
     </div>
-    <div class="h-0 overflow-y-scroll flex-grow mt-4 border-t border-b border-gray-200">
+    <div class="h-0 overflow-y-scroll flex-grow mt-4 border-t border-b border-gray-200 bg-white">
     <table class="table-auto w-full">
       <tr v-for="item in shoppingList"
            :key="item" class="hover:bg-gray-100 border border-gray-200">
@@ -24,7 +24,7 @@
         And start cooking!
       </div>
     </div>
-    <div class="flex-grow h-0 overflow-y-auto border border-gray-200 p-2 mt-4">
+    <div class="flex-grow h-0 overflow-y-auto border border-gray-200 p-2 mt-4 bg-white">
       <ol class="grid grid-cols-1 gap-4 mt-4">
         <li v-for="(recipe, index) in recipes"
              :key="recipe" class="flex ">
