@@ -23,19 +23,19 @@ def add_recipes(links):
         pickle.dump(my_recipes, file)
     print("saved", len(my_recipes))
 
-add_recipes(get_recipe_links7("https://sunbasket.com/menu"))
+#add_recipes(get_recipe_links7("https://sunbasket.com/menu"))
 #add_recipes(get_recipe_links5("https://www.thekitchn.com/collection/salmon"))
 
-for i in range(1, 3):
-    add_recipes(get_recipe_links6("https://sweetpeasandsaffron.com/category/main-ingredient/lentils/page/",i))
-    add_recipes(get_recipe_links6("https://sweetpeasandsaffron.com/category/main-ingredient/beans/page/",i))
-    add_recipes(get_recipe_links6("https://sweetpeasandsaffron.com/category/main-ingredient/chicken/page/",i))
-    add_recipes(get_recipe_links6("https://sweetpeasandsaffron.com/category/main-ingredient/seafood/page/",i))
-for i in range(10):
-    add_recipes(get_recipe_links4(i))
-add_recipes(get_recipe_links3())
-add_recipes(get_recipe_links2())
-for i in range(10):
+#for i in range(1, 3):
+#    add_recipes(get_recipe_links6("https://sweetpeasandsaffron.com/category/main-ingredient/lentils/page/",i))
+#    add_recipes(get_recipe_links6("https://sweetpeasandsaffron.com/category/main-ingredient/beans/page/",i))
+#    add_recipes(get_recipe_links6("https://sweetpeasandsaffron.com/category/main-ingredient/chicken/page/",i))
+#    add_recipes(get_recipe_links6("https://sweetpeasandsaffron.com/category/main-ingredient/seafood/page/",i))
+#for i in range(10):
+#    add_recipes(get_recipe_links4(i))
+#add_recipes(get_recipe_links3())
+#add_recipes(get_recipe_links2())
+for i in range(200):
     add_recipes(get_recipe_links(i))
        
     
