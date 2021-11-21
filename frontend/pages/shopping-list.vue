@@ -12,7 +12,7 @@
     <table class="table-auto w-full">
       <tr v-for="item in shoppingList"
            :key="item" class="hover:bg-gray-100 border border-gray-200">
-        <td class="py-1 pl-1 text-right">{{ item.weight }}</td><td class="pr-2">{{ item.unit }}</td><td class="py-1 px-1 ">{{ item.name }}</td><td v-if="item.usedby" class="text-right"><span class="text-xs mr-2 px-2 py-1 rounded text-white bg-green-600 p-1 text-right">{{ item.usedby }}</span></td>
+        <td class="py-1 pl-1 text-right">{{ item.weight }}</td><td class="pr-2">{{ item.unit }}</td><td class="py-1 px-1 ">{{ item.name }}<span v-if="item.units" class="ml-1">({{ item.units }})</span></td><td v-if="item.usedby" class="text-right"><span class="text-xs mr-2 px-2 py-1 rounded text-white bg-green-600 p-1 text-right">{{ item.usedby }}</span></td>
       </tr>
     </table>
     </div>

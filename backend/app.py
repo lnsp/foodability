@@ -138,11 +138,13 @@ def shopping_list():
         })
     readable_ingredients = []
     for ing, amt in ingredient_list.items():
+        units = math.ceil(amt[0])
         readable_ingredients.append({
             'unit': weight_unit(ing.weight * amt[0]),
             'weight': format_weight(amt[0] * ing.weight),
             'usedby': '' if amt[1] == 1 else 'used by %d' % amt[1],
-            'name': ing.name
+            'name': ing.name,
+            'units': '' if units > 3 else '%.0f unit%s' % (units, 's' if units > 1 else ''),
         })
 
     return jsonify({'shoppingList': readable_ingredients, 'recipes': recipes_with_url})
