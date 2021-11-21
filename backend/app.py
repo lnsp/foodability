@@ -38,6 +38,33 @@ def tags():
     uid = str(uuid4())
     return jsonify({'tags': ['broccoli'], 'uid': uid})
 
+@app.route('/api/waste', methods=['POST'])
+def waste():
+    recipes = request.json['recipes']
+    uid = request.json['uid']
+
+    current_recipes = list(filter(lambda x: x.title in recipes, user_recipes[uid]))
+    ingredient_list = {}
+    for recipe in current_recipes:
+        calculate_ingredients(recipe, food_manager, ingredient_list, True)
+    
+    waste, total_amount = calculate_waste(ingredient_list)
+    rel_waste = waste / total_amount
+
+    plastic, metal, carton, glass = get_total_packaging(ingredient_list)
+    return jsonify({
+        'waste': {
+            'absolute': '%.2f' % (waste / 1000),
+            'relative': '%.0f' % (rel_waste * 100),
+        },
+        'packaging': {
+            'plastic': '' if plastic == 0.0 else '%.2f' % plastic,
+            'metal': '' if metal == 0.0 else '%.2f' % metal,
+            'carton': '' if carton == 0.0 else '%.2f' % carton,
+            'glass': '' if glass == 0.0 else '%.2f' % glass
+        }
+    })
+
 @app.route("/api/plan", methods=['POST'])
 def plan():
     tags = request.json['tags']

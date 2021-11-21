@@ -17,35 +17,68 @@
         <span>{{ tag }}</span>
       </div>
     </div>
-    <div class="my-4 flex-grow h-0 overflow-y-scroll py-2 border-t-2 border-b border-green-600">
-      <div class="grid gap-4 grid-rows-auto auto-rows-fr">
-        <div v-for="recipe in filtered"
-             :key="recipe.title"
-             class="cursor-pointer overflow-hidden relative h-24 rounded-lg border-2 flex flex-row justify-between items-center bg-gray-100 transform transition hover:opacity-100"
-             :class="isChosen(recipe) ? ['border-green-500'] : ['border-gray-400', 'opacity-75']"
-             @click="toggle(recipe)">
-          <div class="flex gap-4 items-center h-full">
-            <img class="flex-shrink-0 h-full w-16 sm:w-24 object-cover filter z-0"
-                 :class="{ 'grayscale': !isChosen(recipe) }"
-                 :src="recipe.image"
-                 v-if="recipe.image">
-            <div class="text-gray-900 mx-2 text-sm">
-              {{ recipe.title }}
+    <div class="my-4 flex-grow h-0 flex relative">
+      <div class="h-full flex-grow overflow-y-scroll rounded-xl shadow-xl p-3  border-green-600 bg-white">
+        <div class="grid gap-3 grid-rows-auto auto-rows-fr">
+          <div v-for="recipe in filtered"
+               :key="recipe.title"
+               class="cursor-pointer overflow-hidden relative h-24 rounded-xl border-2 flex flex-row justify-between items-center bg-gray-100 transform transition hover:opacity-100"
+               :class="isChosen(recipe) ? ['border-green-500', 'bg-green-100', 'shadow-lg'] : ['border-gray-400', 'opacity-75']"
+               @click="toggle(recipe)">
+            <div class="flex gap-4 items-center h-full">
+              <img class="flex-shrink-0 h-full w-16 sm:w-24 object-cover filter z-0"
+                   :class="{ 'grayscale': !isChosen(recipe) }"
+                   :src="recipe.image"
+                   v-if="recipe.image">
+              <div class="text-gray-900 mx-2 text-sm">
+                {{ recipe.title }}
+              </div>
             </div>
+            <button class="w-8 h-8 flex flex-shrink-0 justify-center items-center transition rounded-lg  mr-4 hover:bg-green-600 hover:text-white"
+                    @click="exclude(recipe)">
+              <svg xmlns="http://www.w3.org/2000/svg"
+                   class="h-5 w-5"
+                   fill="none"
+                   viewBox="0 0 24 24"
+                   stroke="currentColor">
+                <path stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
           </div>
-          <button class="w-8 h-8 flex flex-shrink-0 justify-center items-center transition rounded-lg  mr-4 hover:bg-green-600 hover:text-white"
-                  @click="exclude(recipe)">
-            <svg xmlns="http://www.w3.org/2000/svg"
-                 class="h-5 w-5"
-                 fill="none"
-                 viewBox="0 0 24 24"
-                 stroke="currentColor">
-              <path stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
+        </div>
+      </div>
+      <div class="flex flex-col px-2 gap-2 relative w-20 flex-shrink-0  h-full text-green-900">
+        <div class="p-2 w-full" v-if="waste.absolute">
+          <div class=""><span class="text-lg font-bold">{{ waste.absolute }}</span><span class="text-xs">kg</span></div>
+          <div class="text-xs">abs. waste</div>
+        </div>
+        <div class="mx-2 w-full border-b border-green-700" v-if="waste.relative" />
+        <div class="p-2 w-full" v-if="waste.relative">
+          <div class=""><span class="text-lg font-bold">{{ waste.relative }}</span><span class="text-xs">%</span></div>
+          <div class="text-xs">rel. waste</div>
+        </div>
+        <div class="mx-2 w-full border-b border-green-700" v-if="waste.plastic" />
+        <div class="p-2 w-full" v-if="waste.plastic">
+          <div class=""><span class="text-lg font-bold">{{ waste.plastic }}</span><span class="text-xs">cm&sup2;</span></div>
+          <div class="text-xs">plastic</div>
+        </div>
+        <div class="mx-2 w-full border-b border-green-700" v-if="waste.metal" />
+        <div class="p-2 w-full" v-if="waste.metal">
+          <div class=""><span class="text-lg font-bold">{{ waste.metal }}</span><span class="text-xs">cm&sup2;</span></div>
+          <div class="text-xs">metal</div>
+        </div>
+        <div class="mx-2 w-full border-b border-green-700" v-if="waste.carton" />
+        <div class="p-2 w-full" v-if="waste.carton">
+          <div class=""><span class="text-lg font-bold">{{ waste.carton }}</span><span class="text-xs">cm&sup2;</span></div>
+          <div class="text-xs">carton</div>
+        </div>
+        <div class="mx-2 w-full border-b border-green-700" v-if="waste.glass" />
+        <div class="p-2 w-full" v-if="waste.glass">
+          <div class=""><span class="text-lg font-bold">{{ waste.glass }}</span><span class="text-xs">cm&sup2;</span></div>
+          <div class="text-xs">glass</div>
         </div>
       </div>
     </div>
@@ -109,6 +142,14 @@ export default {
       excluded: [],
       chosen: [],
       recipes: [],
+      waste: {
+        absolute: '2.5',
+        relative: '12',
+        plastic: '2.3',
+        metal: '4.5',
+        carton: '8.9',
+        glass: '12',
+      }
     };
   },
   methods: {
@@ -128,6 +169,22 @@ export default {
         this.chosen.push(recipe.title);
       }
     },
+    async fetchWaste() {
+      let selected = this.recipes
+        .filter((x) => !this.isExcluded(x))
+        .map((x) => x.title);
+      let response = await this.$axios.$post("/waste", {
+        uid: this.uid,
+        recipes: selected,
+      })
+
+      this.waste.absolute = response.waste.absolute
+      this.waste.relative = response.waste.relative
+      this.waste.plastic = response.packaging.plastic
+      this.waste.metal = response.packaging.metal
+      this.waste.carton = response.packaging.carton
+      this.waste.glass = response.packaging.glass
+    },
     async fetch() {
       const response = await this.$axios.$post("/plan", {
         uid: this.uid,
@@ -140,6 +197,7 @@ export default {
       });
       this.recommended = response.recommended;
       this.recipes = response.recipes;
+      this.fetchWaste()
     },
     isExcluded(recipe) {
       return this.excluded.includes(recipe.title);
@@ -148,7 +206,9 @@ export default {
       return this.chosen.includes(recipe.title);
     },
     next() {
-      let selected = this.recipes.filter(x => !this.isExcluded(x)).map(x => x.title)
+      let selected = this.recipes
+        .filter((x) => !this.isExcluded(x))
+        .map((x) => x.title);
       this.$store.commit("food/recipes", selected);
       this.$router.push("/shopping-list");
     },
